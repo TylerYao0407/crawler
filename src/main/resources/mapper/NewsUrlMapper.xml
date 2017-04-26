@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tyler.dao.NewsUrlMapper">
+  <resultMap id="BaseResultMap" type="com.tyler.model.NewsUrl">
+    <constructor>
+      <idArg column="auto_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="news_url" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="news_md5" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="insert_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    auto_id, news_url, news_md5, insert_time, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from news_url
+    where auto_id = #{autoId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from news_url
+    where auto_id = #{autoId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="java.util.List">
+    insert ignore into news_url (news_url, news_md5,
+      insert_time, status)
+    values
+    <foreach collection ="list" item="it" index= "index" separator =",">
+      ( #{it.newsUrl,jdbcType=VARCHAR}, #{it.newsMd5,jdbcType=VARCHAR},
+      #{it.insertTime,jdbcType=TIMESTAMP}, #{it.status,jdbcType=TINYINT})
+    </foreach >
+
+  </insert>
+  <insert id="insertSelective" parameterType="com.tyler.model.NewsUrl">
+    insert into news_url
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="autoId != null">
+        auto_id,
+      </if>
+      <if test="newsUrl != null">
+        news_url,
+      </if>
+      <if test="newsMd5 != null">
+        news_md5,
+      </if>
+      <if test="insertTime != null">
+        insert_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="autoId != null">
+        #{autoId,jdbcType=INTEGER},
+      </if>
+      <if test="newsUrl != null">
+        #{newsUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="newsMd5 != null">
+        #{newsMd5,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null">
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tyler.model.NewsUrl">
+    update news_url
+    <set>
+      <if test="newsUrl != null">
+        news_url = #{newsUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="newsMd5 != null">
+        news_md5 = #{newsMd5,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null">
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where auto_id = #{autoId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tyler.model.NewsUrl">
+    update news_url
+    set news_url = #{newsUrl,jdbcType=VARCHAR},
+      news_md5 = #{newsMd5,jdbcType=VARCHAR},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=TINYINT}
+    where auto_id = #{autoId,jdbcType=INTEGER}
+  </update>
+
+</mapper>

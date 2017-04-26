@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tyler.dao.NewsDetailsMapper">
+  <resultMap id="BaseResultMap" type="com.tyler.model.NewsDetails">
+    <constructor>
+      <idArg column="auto_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="editor" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="media_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="initime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="news_url" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="news_md5" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="pub_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="path" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+    <collection property="newsPictures" ofType="com.tyler.model.NewsPicture">
+      <id column="auto_id" property="autoId"/>
+      <result column="news_url_md5" property="newsUrlMd5"/>
+      <result column="picture" property="picture"/>
+    </collection>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.tyler.model.NewsDetails">
+    <constructor>
+      <idArg column="auto_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="editor" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="media_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="initime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="news_url" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="news_md5" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="pub_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="path" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="content" javaType="java.lang.String" jdbcType="LONGVARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    auto_id, title, editor, media_name, initime, news_url, news_md5, pub_time, path
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from news_details
+    where auto_id = #{autoId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from news_details
+    where auto_id = #{autoId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tyler.model.NewsDetails">
+    insert ignore into news_details (title, editor,
+    media_name, initime, news_url,
+    news_md5, pub_time, path, content)
+    values (#{title,jdbcType=VARCHAR}, #{editor,jdbcType=VARCHAR},
+    #{mediaName,jdbcType=VARCHAR}, #{initime,jdbcType=TIMESTAMP}, #{newsUrl,jdbcType=VARCHAR},
+    #{newsMd5,jdbcType=VARCHAR}, #{pubTime,jdbcType=TIMESTAMP}, #{path,jdbcType=VARCHAR},
+    #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tyler.model.NewsDetails">
+    insert into news_details
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="autoId != null">
+        auto_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="editor != null">
+        editor,
+      </if>
+      <if test="mediaName != null">
+        media_name,
+      </if>
+      <if test="initime != null">
+        initime,
+      </if>
+      <if test="newsUrl != null">
+        news_url,
+      </if>
+      <if test="newsMd5 != null">
+        news_md5,
+      </if>
+      <if test="pubTime != null">
+        pub_time,
+      </if>
+      <if test="path != null">
+        path,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="autoId != null">
+        #{autoId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="editor != null">
+        #{editor,jdbcType=VARCHAR},
+      </if>
+      <if test="mediaName != null">
+        #{mediaName,jdbcType=VARCHAR},
+      </if>
+      <if test="initime != null">
+        #{initime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newsUrl != null">
+        #{newsUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="newsMd5 != null">
+        #{newsMd5,jdbcType=VARCHAR},
+      </if>
+      <if test="pubTime != null">
+        #{pubTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="path != null">
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tyler.model.NewsDetails">
+    update news_details
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="editor != null">
+        editor = #{editor,jdbcType=VARCHAR},
+      </if>
+      <if test="mediaName != null">
+        media_name = #{mediaName,jdbcType=VARCHAR},
+      </if>
+      <if test="initime != null">
+        initime = #{initime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newsUrl != null">
+        news_url = #{newsUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="newsMd5 != null">
+        news_md5 = #{newsMd5,jdbcType=VARCHAR},
+      </if>
+      <if test="pubTime != null">
+        pub_time = #{pubTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="path != null">
+        path = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where auto_id = #{autoId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.tyler.model.NewsDetails">
+    update news_details
+    set title = #{title,jdbcType=VARCHAR},
+      editor = #{editor,jdbcType=VARCHAR},
+      media_name = #{mediaName,jdbcType=VARCHAR},
+      initime = #{initime,jdbcType=TIMESTAMP},
+      news_url = #{newsUrl,jdbcType=VARCHAR},
+      news_md5 = #{newsMd5,jdbcType=VARCHAR},
+      pub_time = #{pubTime,jdbcType=TIMESTAMP},
+      path = #{path,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where auto_id = #{autoId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tyler.model.NewsDetails">
+    update news_details
+    set title = #{title,jdbcType=VARCHAR},
+      editor = #{editor,jdbcType=VARCHAR},
+      media_name = #{mediaName,jdbcType=VARCHAR},
+      initime = #{initime,jdbcType=TIMESTAMP},
+      news_url = #{newsUrl,jdbcType=VARCHAR},
+      news_md5 = #{newsMd5,jdbcType=VARCHAR},
+      pub_time = #{pubTime,jdbcType=TIMESTAMP},
+      path = #{path,jdbcType=VARCHAR}
+    where auto_id = #{autoId,jdbcType=INTEGER}
+  </update>
+
+</mapper>

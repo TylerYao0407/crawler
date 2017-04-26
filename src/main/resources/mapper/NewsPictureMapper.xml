@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tyler.dao.NewsPictureMapper">
+  <resultMap id="BaseResultMap" type="com.tyler.model.NewsPicture">
+    <constructor>
+      <idArg column="auto_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="news_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="picture" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+    <association property="newsDetails" javaType="com.tyler.model.NewsDetails">
+
+
+      <id column="auto_id" property="autoId" />
+      <result column="title" property="title" />
+      <result column="editor" property="editor" />
+      <result column="media_name" property="mediaName" />
+      <result column="initime" property="initime" />
+      <result column="news_url" property="newsUrl" />
+      <result column="news_md5" property="newsMd5" />
+      <result column="pub_time" property="pubTime" />
+      <result column="path" property="path" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    auto_id, news_id, picture
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from news_picture
+    where auto_id = #{autoId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from news_picture
+    where auto_id = #{autoId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tyler.model.NewsPicture">
+    insert into news_picture (auto_id, news_id, picture
+      )
+    values (#{autoId,jdbcType=INTEGER}, #{newsId,jdbcType=INTEGER}, #{picture,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tyler.model.NewsPicture">
+    insert into news_picture
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="autoId != null">
+        auto_id,
+      </if>
+      <if test="newsId != null">
+        news_id,
+      </if>
+      <if test="picture != null">
+        picture,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="autoId != null">
+        #{autoId,jdbcType=INTEGER},
+      </if>
+      <if test="newsId != null">
+        #{newsId,jdbcType=INTEGER},
+      </if>
+      <if test="picture != null">
+        #{picture,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tyler.model.NewsPicture">
+    update news_picture
+    <set>
+      <if test="newsId != null">
+        news_id = #{newsId,jdbcType=INTEGER},
+      </if>
+      <if test="picture != null">
+        picture = #{picture,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where auto_id = #{autoId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tyler.model.NewsPicture">
+    update news_picture
+    set news_id = #{newsId,jdbcType=INTEGER},
+      picture = #{picture,jdbcType=VARCHAR}
+    where auto_id = #{autoId,jdbcType=INTEGER}
+  </update>
+</mapper>

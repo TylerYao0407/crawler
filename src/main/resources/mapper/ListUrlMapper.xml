@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tyler.dao.ListUrlMapper">
+  <resultMap id="BaseResultMap" type="com.tyler.model.ListUrl">
+    <constructor>
+      <idArg column="auto_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="list_url" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="sitename" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="list_md5" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="insert_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="update_level" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    auto_id, list_url, sitename, list_md5, insert_time, update_time, update_level, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from list_url
+    where auto_id = #{autoId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from list_url
+    where auto_id = #{autoId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="java.util.List">
+    insert ignore into list_url (list_url, sitename,
+      list_md5, insert_time, update_time, status)
+    values
+    <foreach collection ="list" item="it" index= "index" separator =",">
+    ( #{it.listUrl,jdbcType=VARCHAR}, #{it.sitename,jdbcType=VARCHAR},
+        #{it.listMd5,jdbcType=VARCHAR}, #{it.insertTime,jdbcType=TIMESTAMP}, #{it.updateTime,jdbcType=TIMESTAMP},
+        #{it.status,jdbcType=TINYINT})
+    </foreach >
+  </insert>
+  <insert id="insertSelective" parameterType="com.tyler.model.ListUrl">
+    insert into list_url
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="autoId != null">
+        auto_id,
+      </if>
+      <if test="listUrl != null">
+        list_url,
+      </if>
+      <if test="sitename != null">
+        sitename,
+      </if>
+      <if test="listMd5 != null">
+        list_md5,
+      </if>
+      <if test="insertTime != null">
+        insert_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateLevel != null">
+        update_level,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="autoId != null">
+        #{autoId,jdbcType=INTEGER},
+      </if>
+      <if test="listUrl != null">
+        #{listUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sitename != null">
+        #{sitename,jdbcType=VARCHAR},
+      </if>
+      <if test="listMd5 != null">
+        #{listMd5,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null">
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateLevel != null">
+        #{updateLevel,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tyler.model.ListUrl">
+    update list_url
+    <set>
+      <if test="listUrl != null">
+        list_url = #{listUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sitename != null">
+        sitename = #{sitename,jdbcType=VARCHAR},
+      </if>
+      <if test="listMd5 != null">
+        list_md5 = #{listMd5,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null">
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateLevel != null">
+        update_level = #{updateLevel,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where auto_id = #{autoId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tyler.model.ListUrl">
+    update list_url
+    set list_url = #{listUrl,jdbcType=VARCHAR},
+      sitename = #{sitename,jdbcType=VARCHAR},
+      list_md5 = #{listMd5,jdbcType=VARCHAR},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_level = #{updateLevel,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT}
+    where auto_id = #{autoId,jdbcType=INTEGER}
+  </update>
+
+</mapper>

@@ -1,0 +1,4 @@
+与数据库交互（Spring、MyBatis）
+    实现list news URL的入库
+    实现新闻详情页的入库
+    实现新闻详情页保存到本地
